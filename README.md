@@ -20,12 +20,22 @@ Pierre Courbin
 ## Architecture
 
     Coming soon ...
-                    
-               
+    
 
 ## Installation
 
 Coming soon ...
 
+# Status
+
+It works with tons of glue patching everywhere ...
+
+## Roadmap
+
+  * Finalize CRUD operations for db and in-memory regardings jobs/workers/workloads
+  * When works will come with their own libs and stuff, will need to shift the focus from "one exec" to one a zip containing exec + libs.
+  * No idea right now concerning timeouts of tcp sockets.
+  * Find a more elegant way to handle the new jobs request, going through kaazing works but ...
+  * Tons of more stuff
 
 
