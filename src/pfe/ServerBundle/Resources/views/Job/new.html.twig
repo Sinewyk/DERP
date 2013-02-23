@@ -1,0 +1,92 @@
+{% extends 'MopaBootstrapBundle::base_css.html.twig' %}
+
+{% block container %}
+<div class="container">
+	
+	<div class="hero-unit">
+		<h2>Création de job</h2>
+	</div><!-- .hero-unit -->
+	
+	{% block content_row %}	
+    <div id="pageName" name="newJob"></div>
+	
+    <form method="post" action="{{path('pfe_server_job_send')}}" enctype="multipart/form-data" id="myForm">	 
+		<div class="row" id="row">
+            
+            <div class="span4">
+                     
+                    <label for="name">nom du job</label>
+                    <input type="text" name="name" id="name" />
+                    
+                    <label for="owner">nom d'utilisateur</label>
+                    <input type="text" name="owner" id="owner" />
+                    
+                    <label for="minram">ram minimum</label>
+                    <input type="text" name="minram" id="minram" />
+                    
+                    <label for="maxram">ram maximum</label>
+                    <input type="text" name="maxram" id="maxram" />
+                    
+                    <label for="mincpu">cpu minimum</label>
+                    <input type="text" name="mincpu" id="mincpu" />
+                    
+                    <label for="fnp">file name pattern</label>
+                    <input type="text" name="fnp" id="fnp" />
+                    
+                    <label for="createfiles">Création de fichier</label><input type="checkbox" name="createfiles" id="createfiles" />
+         
+            </div>
+            
+            <div class="span4">
+                            
+                    <label for="CG">utilisation de la CG</label><input type="checkbox" name="CG" id="CG" />
+                
+                <label for="archi">Architecture</label><br />
+                    <select name="archi" id="archi">
+                        <option value="32">32</option>
+                        <option value="64">64</option>
+                    </select>
+                    
+                <label for="priority">Priorité du job</label><br />
+                    <select name="priority" id="priority">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                    
+                    <label> choisissez un exécutable windows</label>
+                    <input type="file" name="filenameWin" value="parcourir"/>
+                    
+                    <label> choisissez un exécutable linux</label>
+                    <input type="file" name="filenameLinux" value="parcourir"/>
+                    
+                    <label> choisissez un exécutable mac</label>
+                    <input type="file" name="filenameMac" value="parcourir"/>
+            </div>
+            
+            <div class="span4">                
+                <label for="nbrun">nombre d'exécution</label>
+                <input type="number" name="nbrun" id="nbrun"/>   
+                <legend>Parametres</legend>
+                <p>Tapez les lignes lignes d'exécution (elles ne doivent pas dépendre des OS)</p>
+				<div id="listOfParameters">
+					<input placeholder="1" type='text' name='parameter[]' id='parameter0'>
+                </div>
+                    
+                
+            </div>
+        </div><!-- .row -->
+    <div id="upload">
+        <input type="submit" class="btn-large btn-info offset4" value="Envoyer les fichiers">
+    </div>
+    
+    </form>
+	{% endblock content_row %}
+	
+
+	
+</div><!-- .container -->
+{% endblock %}

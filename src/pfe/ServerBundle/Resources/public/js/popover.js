@@ -1,0 +1,4 @@
+$('.btnDetail').popover(); 
+
+
+

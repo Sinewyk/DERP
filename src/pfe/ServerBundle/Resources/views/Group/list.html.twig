@@ -1,0 +1,28 @@
+{% extends 'MopaBootstrapBundle::base_css.html.twig' %}
+
+{% block container %}
+	<div class="container">
+		<div class="hero-unit">
+			<h2>Gestion des groupes de machines</h2>
+		</div><!-- .hero-unit-->
+		
+		<h3>Liste des groupes existants</h3>
+		
+		<div class="span10">
+                    {% for group in groups %}
+						<div class="row">
+							<div class="span6">
+								<h4>{{ group.name }}</h4>
+							</div>
+							<div class="span3">
+                                <button type="button" class="btn btn-info btnDetail" rel="popover" data-placement="left" data-content="nombre de machines : windows: {{group.numberWin}} - linux: {{group.numberLinux}} - mac: {{group.numberMac}} - heure de début {{group.startTime}}h -  heure de fin {{group.endTime}}h" data-original-title="{{group.name}}" id="{{loop.index}}">Détails</button>
+								<a class="btn btn-info" href="{{ path('pfe_server_group_modify', {'name': group.name}) }}">Modifier</a>                                
+							</div>
+						</div>
+                    {% endfor %}
+
+					<a class="btn-large btn-primary" href="{{path('pfe_server_group_new')}}">créer un groupe</a>
+				
+		</div>
+	</div>
+{% endblock container %}

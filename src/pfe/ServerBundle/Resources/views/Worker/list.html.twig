@@ -1,0 +1,38 @@
+{% extends 'MopaBootstrapBundle::base_css.html.twig' %}
+
+{% block container %}
+	<div class="container">
+		<div class="hero-unit">
+			<h2>Gestions des machines du parc informatique</h2>
+		</div><!-- .hero-unit -->		 
+		
+		<h3>Etat actuel du parc</h3>
+
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Groupe</th>
+								<th>Etat</th>
+								<th>Détails</th>
+							</tr>
+						</thead>
+						<tbody>
+                            
+                            {% for worker in workers %}
+							<tr>
+								<th>{{ worker.hostname }}</th>
+								<th>{{ worker.groupName }}</th>
+                                {% if worker.state == 'waiting' %}
+                                    <th class="free">libre</th>
+                                {% else %}
+                                    <th class="busy">occupé</th>
+                                {% endif %}
+								<th><button type="button" class="btn-info btnDetail" rel="popover" data-placement="left" data-content="{{worker.os}} - {{worker.groupName}} - {{worker.ipAddress}} - {{worker.nbOfCore}} - {{worker.cpuFrequence}}" data-original-title="{{worker.hostname}}" id="{{loop.index}}">Détails</button></th>
+							</tr>
+                            {% endfor %}
+						</tbody>
+					</table>
+
+	</div>
+{% endblock %}

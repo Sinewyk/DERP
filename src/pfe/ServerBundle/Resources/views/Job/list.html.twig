@@ -1,0 +1,30 @@
+{% extends 'MopaBootstrapBundle::base_css.html.twig' %}
+
+{% block container %}  
+	<div class="container">
+		<div class="hero-unit">
+			<h2>Gestion des jobs</h2>
+		</div><!-- .hero-unit -->
+    </div>
+    <div class="container">
+		<h3>Récapitulatifs des derniers jobs</h3>
+		
+		
+		{% for job in jobs %}
+			<div class="row">
+				<div class="span10">
+					<h4> {{job.name}} </h4> 
+					<div class="progress progress-striped active">
+						<div class="bar bar-success" style="width: {{(job.progress / job.nbRun) * 100}}%;"></div>
+					</div>	
+				</div>
+				<div class="span1 offset1">
+					<button type="button" class="btn btn-info btnDetail" rel="popover" data-placement="left" data-content="utilisateur: {{job.owner}} - min Ram: {{job.minRam}} - nombre d'éxécutions: {{job.nbRun}}" data-original-title="{{job.name}}" id="{{loop.index}}">Détails</button>
+				</div>
+			</div>
+		{% endfor %}	
+		<a class="btn-large btn-primary" href="{{path('pfe_server_job_new')}}">Créer un Job</a>
+
+    </div>
+{% endblock container%}
+

@@ -1,0 +1,26 @@
+{% extends 'MopaBootstrapBundle::base_css.html.twig' %}
+
+{% block container %}
+<div class="container">
+	
+	<div class="hero-unit">
+		<h2>Création d'un nouveau groupe</h2>
+	</div><!-- .hero-unit -->
+	
+    <div id="pageName" name="newGroup"></div>
+        <form method="post" action="{{ path('pfe_server_group_save') }}">
+			<div class="container">
+
+				<label> nom : </label> <input type="text" name="groupName" id="groupName"/>
+				<label> nombre de windows:  0</label>
+				<label> nombre de linux: 0</label>
+				<label> nombre de mac:  0</label>
+				<label> heure de début : </label> <input type="number" name="startTime" min="0" max="23" />
+				<label> heure de fin : </label> <input type="number" name="endTime" min="0" max="23" />
+			</div>
+			<input type="submit" class="btn-large btn-primary" value="sauvegarder" />
+		</form>
+		
+</div>
+
+{% endblock container %}

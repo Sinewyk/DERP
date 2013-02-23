@@ -1,0 +1,29 @@
+{% extends 'MopaBootstrapBundle::base_css.html.twig' %}
+
+{% block container %}
+
+<div class="container">
+	
+	<div class="hero-unit">
+		<h2>Modification d'un groupe existant</h2>
+	</div><!-- .hero-unit -->
+	
+        <form method="post" action="{{ path('pfe_server_group_save') }}">
+			<div class="container">
+            {% for item in group %}
+                <input type="hidden" name="originalGroupName" id="originalGroupName" value="{{ item.name }}">
+                <label> nom : </label> <input type="text" name="groupName" id="groupName" value="{{ item.name }}"/>
+                <label> nombre de windows:  {{ item.numberWin }}</label>
+                <label> nombre de linux: {{ item.numberLinux }} </label>
+                <label> nombre de mac:  {{ item.numberMac }}</label>
+                <label> heure de début : </label> <input type="number" name="startTime" min="0" max="23" value="{{ item.startTime }}"/>
+                <label> heure de fin : </label> <input type="number" name="endTime" min="0" max="23" value="{{ item.endTime }}"/>
+            {% endfor %}
+			</div>
+            
+            <input type="submit" class="btn-large btn-primary" value="sauvegarder" />
+        </form>
+		
+</div>
+
+{% endblock container %}

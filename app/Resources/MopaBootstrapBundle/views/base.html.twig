@@ -1,0 +1,179 @@
+{% from 'MopaBootstrapBundle::flash.html.twig' import session_flash %}
+
+<!DOCTYPE html>
+
+{% block html_tag %}
+	<html>
+{% endblock html_tag %}
+
+{% block head %}
+	<head>
+		<meta http-equiv=Content-Type content="text/html"; charset="utf-8" />
+		{% block head_style %}
+			{# Override this block to add your own files! #}
+			{% stylesheets '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle.less' %}
+				<link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+			{% endstylesheets %}
+			
+			{# To use this without less use the base_css.html.twig template as your base
+			 # Be sure you understand whats going on: have a look into
+			 # https://github.com/phiamo/MopaBootstrapBundle/blob/master/Resources/doc/css-vs-less.md
+			 #}
+		{% endblock head_style %}
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		{% block head_script %}
+			{# Overwrite this block to add your own js here, to get them generated into final files #}
+		{% endblock head_script %}
+
+		<title>{% block title %}D.E.R.P. Project{% endblock title %}</title>
+		<link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+		
+		{% block head_bottom %}
+		{% endblock head_bottom %}
+	</head>
+{% endblock head %}
+
+{% block body_tag %}
+	<body data-spy="scroll">
+{% endblock body_tag %}
+
+{% block body_start %}
+{% endblock body_start %}
+
+{% block body %}
+    {% block navbar %}
+		{#{{ mopa_bootstrap_navbar('frontendNavbar') }}#}
+		
+        {% block user_navbar %}
+            <div class="navbar navbar-fixed-top">
+				<div class="navbar-inner">
+					<div class="container"> 
+						<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</a>
+						 
+						<!-- Be sure to leave the brand out there if you want it shown -->
+						<a class="brand" href="{{path('pfe_server_job_list')}}">Home D.E.R.P.  </a>
+						 
+						<!-- Everything you want hidden at 940px or less, place within here -->
+						<div class="nav-collapse collapse">
+						<!-- .nav, .navbar-search, .navbar-form, etc -->
+							<ul class="nav">
+								<li>
+								<a href={{path('pfe_server_job_list')}}>Jobs</a>
+								</li>
+								<li>
+								<a href={{path('pfe_server_worker_list')}}>Workers</a>
+								</li>
+								<li>
+								<a href={{path('pfe_server_group_list')}}>Groupes</a>
+								</li>
+							</ul>
+						</div>
+				 
+					</div>
+				</div>
+			</div>
+        {% endblock user_navbar %}
+        
+        {% block admin_navbar %}
+        {% endblock admin_navbar %}
+    
+    {% endblock navbar %}
+    
+    {% block hero_unit %}
+    {% endblock hero_unit %}
+    
+
+    {% block container %}
+		<div class="{% block container_class %}container{% endblock container_class %}">
+		
+			{% block header %}
+			{% endblock header %}
+
+			<div class="content">
+				{% block page_header %}
+					<div class="page-header">
+						  <h1>{% block headline %}Mopa Bootstrap Bundle{% endblock headline %}</h1>
+					</div>
+				{% endblock page_header %}
+
+				{% block flashes %}
+					{% if app.session.flashbag.peekAll|length > 0 %}
+						<div class="row">
+							<div class="span12">
+							{{ session_flash() }}
+							</div>
+						</div>
+					{% endif %}
+				{% endblock flashes %}
+
+				{% block content_row %}
+					<div class="row">
+						{% block content %}
+							<div class="span9">
+							</div>
+							
+							<div class="span3">
+								{% block content_sidebar %}
+								{% endblock content_sidebar %}
+							</div>
+						{% endblock content %}
+					</div>
+				{% endblock content_row %}
+			</div>
+			
+			
+			
+		</div> <!-- /container -->
+		
+    {% endblock container %}
+	
+	{% block footer %}
+        <footer class="footer">
+            <p class="pull-right"><a href="#">Back to top</a></p>
+            <p>© D.E.R.P. Project 2013 - Made in France by Clavier Christophe, Cornu Julien, Lebreton Arnaud, Havas Serge, Premet Alexis</p>
+            <p>Twitter Bootstrap is designed and built with all the love in the world <a href="http://twitter.com/twitter" target="_blank">@twitter</a> by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>.</p>
+            <p>Javascript and CSS code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>. Symfony2 bundle licensed under the <a href="http://opensource.org/licenses/MIT">MIT License</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        </footer>
+	{% endblock footer %}
+	
+	{% block foot_script %}
+		{# To only use a subset or add more js overwrite and copy paste this block
+		To speed up page loads save a copy of jQuery in your project and override this block to include the correct path
+		Otherwise the regeneration is done on every load in dev more with use_controller: true
+		 #}
+		{% javascripts
+			'@pfeServerBundle/Resources/public/js/jquery-1.9.1.js'
+			'@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-transition.js'
+			'@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-modal.js'
+			'@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-dropdown.js'
+			'@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-scrollspy.js'
+			'@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-tab.js'
+			'@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-tooltip.js'
+			'@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-popover.js'
+			'@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-alert.js'
+			'@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-button.js'
+			'@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-collapse.js'
+			'@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-carousel.js'
+			'@MopaBootstrapBundle/Resources/bootstrap/js/bootstrap-typeahead.js'
+			'@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
+			'@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
+            '@pfeServerBundle/Resources/public/js/Header.js'
+			'@pfeServerBundle/Resources/public/js/popover.js'
+			'@pfeServerBundle/Resources/public/js/paramNewJob.js'
+            '@pfeServerBundle/Resources/public/js/checkInDb.js'
+            '@pfeServerBundle/Resources/public/js/post_upload_script.js'
+			
+		%}
+			<script type="text/javascript" src="{{ asset_url }}"></script>
+		{% endjavascripts %}
+	{% endblock foot_script %}
+{% endblock body %}
+	</body>
+	</html>
