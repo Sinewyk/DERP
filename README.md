@@ -6,21 +6,20 @@ App to ask work to be done on multiple workers that can pretty much be on any OS
 
 ## Authors
 
-D.E.R.P. ECE PFE Team 2012-2013
+D.E.R.P. [ECE](http://www.ece.fr/) PFE Team 2012-2013
 
-Christophe Clavier
-Julien Cornu
-Serge Havas
-Arnaud Lebreton
-Alexis Premet
+  * Christophe Clavier
+  * Julien Cornu
+  * Serge Havas
+  * Arnaud Lebreton
+  * Alexis Premet
 
 With the contribution of our mentor
-Pierre Courbin
+  * Pierre Courbin
 
 ## Architecture
 
     Coming soon ...
-    
 
 ## Installation
 
@@ -28,11 +27,12 @@ Coming soon ...
 
 # Status
 
-It works with tons of glue patching everywhere ...
+It works with tons of glue patching everywhere ... consider this as a BETA for now. Working, but needs tons of work.
 
 ## Roadmap
 
   * Finalize CRUD operations for db and in-memory regardings jobs/workers/workloads
+  * Shift from standard TCP to TSL/SSL, WS to WSS, and maybe add a password to our database (-.-').
   * When works will come with their own libs and stuff, will need to shift the focus from "one exec" to one a zip containing exec + libs.
   * No idea right now concerning timeouts of tcp sockets.
   * Find a more elegant way to handle the new jobs request, going through kaazing works but ...
