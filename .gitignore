@@ -9,7 +9,7 @@ web/uploads/*
 web/bundles/*
 
 #node/upload/generated stuff
-node/node_modules
+*/node_modules/*
 upload/win/*
 upload/linux/*
 upload/mac/*
