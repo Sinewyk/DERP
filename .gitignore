@@ -7,6 +7,9 @@ vendor/*
 */cache/*
 web/uploads/*
 web/bundles/*
+
+#node/upload/generated stuff
+node/node_modules
 upload/win/*
 upload/linux/*
 upload/mac/*
@@ -15,6 +18,41 @@ node/tests
 web/results/*
 node/jobs/*
 
+#java generated stuff
+*.class
+*.jar
+*.war
+*.ear
+
 # Configuration files
 app/config/parameters.ini
 app/config/parameters.yml
+
+#eclipse stuff
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+node_modules
