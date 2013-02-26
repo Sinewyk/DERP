@@ -17,6 +17,7 @@ node/objet
 node/tests
 web/results/*
 node/jobs/*
+*.log
 
 #java generated stuff
 *.class
