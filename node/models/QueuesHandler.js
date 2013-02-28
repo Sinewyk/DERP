@@ -307,7 +307,7 @@ QueuesHandler.prototype.areWorkloadsWaiting = function() {
 QueuesHandler.prototype.workloadsInfo = function() {
     console.log("Nombre de workloads en attente");
     console.log(this.waiting_workload_Q.length);
-    console.log("Nombre de workloads envoyés");
+    console.log("Nombre de workloads envoyes");
     console.log(this.sent_workload_Q.length);
 }
 

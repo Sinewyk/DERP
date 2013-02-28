@@ -6,9 +6,6 @@ var net = require("net");
 * @param handle Object
 */
 function start(route, handle) {
-    //Server data, worker queue, groups, jobsQueue, workloadQueue
-    
-    
     //'connection' listener
     function onConnection(client) {
         //connection successfully established
@@ -57,7 +54,6 @@ function start(route, handle) {
         });
 
         client.on("end", function() {
-            //Should never be used
             console.log("Received FIN packet, closing");
         });
     }
@@ -69,8 +65,8 @@ function start(route, handle) {
         global.errorLog.error("Server error %s",err);
     });
     
-    server.listen(global.config["server_port"], function() { //'listening' listener
-        console.log("Server listening on port "+global.config["server_port"]);
+    server.listen(global.config["server_port"],global.config["server_host"], function() { //'listening' listener
+        console.log("Server listening on "+global.config["server_host"]+":"+global.config["server_port"]);
     });
 }
 
