@@ -53,11 +53,11 @@ function job_status(client, data) {
 }
 
 //Request from the browser
-function workload_status(client, data) {
+function workload_status_req(client, data) {
 }
 
 //Response from the worker
-function workload_status_is(client, data) {
+function workload_status(client, data) {
     if(client.type === "worker") {
         console.log("workload status is ",data);
     }
@@ -82,12 +82,12 @@ function workload_status_fail(client, data) {
 function echo_request(client, data) {
     if(data === null) {
         console.log("Received blank echo_request");
-        var header = new Header("\0RES",17,0);
+        var header = new Header(Header.RES,Header.ECHO_RES,0);
         var finalB = header.createHeader();
         client.write(finalB, "binary", function() {console.log("Finished blank echo_response:"+finalB.toString());});
     } else {
         console.log("Received echo_request"+data.toString());
-        var header = new Header("\0RES",17);
+        var header = new Header(Header.RES,Header.ECHO_RES);
         var finalB = header.appendHeader(data);
         client.write(finalB,"binary",function() {console.log("Finished echo_response :"+finalB.toString());});
     }
@@ -160,7 +160,7 @@ function worker_conec_req(client, data) {
             console.log("Received correct authentification");
             var buf = new Buffer(1);
             buf.writeInt8(0,0);
-            var header = new Header("\0RES",30);
+            var header = new Header(Header.RES,Header.WORKER_CONNEC);
             var finalB = header.appendHeader(buf);
             console.log(finalB);
             console.log(finalB.toString());
@@ -169,8 +169,10 @@ function worker_conec_req(client, data) {
             });
             client.isAuthenticated = true;
             client.worker = new Worker();
-            client.worker.socket = client;
             
+            //Here a worker is assigned to that client, but it's still not available in the QueuesHandler
+            //We need its specs first
+            client.worker.socket = client;
         }
     } else {
         client.end();
@@ -181,8 +183,8 @@ module.exports.newJob = newJob;
 module.exports.work_available = work_available;
 module.exports.workload_received = workload_received;
 module.exports.job_status = job_status;
+module.exports.workload_status_req = workload_status_req;
 module.exports.workload_status = workload_status;
-module.exports.workload_status_is = workload_status_is;
 module.exports.workload_status_complete = workload_status_complete;
 module.exports.workload_status_fail = workload_status_fail;
 module.exports.echo_request = echo_request;

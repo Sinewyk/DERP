@@ -12,7 +12,7 @@ require("./models/Array.js");
 var config = require("./config")
 , server = require("./server")
 , router = require("./router")
-, handle = require("./routes");
+, handle = require("./serverRoutes");
 
 //Fixing global access log and error log to log from everywhere
 var fs = require('fs')

@@ -44,7 +44,7 @@ Worker.prototype.save = function(dbManager) {
 */
 Worker.prototype.specsRequest = function() {
 	var self = this;
-    var header = new Header("\0REQ",19,0);
+    var header = new Header(Header.REQ,Header.WORKER_SPECS_REQ,0);
     var finalB = header.createHeader();
     console.log(finalB);
     console.log(finalB.toString());

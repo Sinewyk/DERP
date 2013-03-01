@@ -19,13 +19,15 @@ function route(client, handle, buffer) {
             client.buffer = buffer.slice(12);
             
             if(buffer.length == client.header.size+12) {
-                if (typeof handle[client.header.type] === 'object' && typeof handle[client.header.type][client.header.num] === 'function') {
+                if (typeof handle[client.header.type] === 'object'
+                && typeof handle[client.header.type][client.header.num] === 'function') {
                     if (client.isAuthenticated) {
                         handle[client.header.type][client.header.num](client, client.buffer);
                     }
                     //If the client needs to authenticate
-                    else if (client.header.type === "\0REQ" && client.header.num === 29) {
-                        handle["\0REQ"][29](client, client.buffer);
+                    else if (client.header.type === Header.REQ
+                    && client.header.num === Header.WORKER_CONNEC_REQ) {
+                        handle[Header.REQ][Header.WORKER_CONNEC_REQ](client, client.buffer);
                     }
                     //If the client needs to authenticate and sent the wrong header
                     else {
@@ -38,7 +40,8 @@ function route(client, handle, buffer) {
         }
         //pas de data
         else {
-            if (typeof handle[client.header.type] === 'object' && typeof handle[client.header.type][client.header.num] === 'function') {
+            if (typeof handle[client.header.type] === 'object'
+            && typeof handle[client.header.type][client.header.num] === 'function') {
                 //If the client is authenticated
                 if (client.isAuthenticated) {
                     handle[client.header.type][client.header.num](client, null);
@@ -58,7 +61,8 @@ function route(client, handle, buffer) {
             //console.log("Concatenating, download% : "+((client.buffer.length/client.header.size)*100));
             if(client.buffer.length == client.header.size) {
                 client.concatOver = true;
-                if (typeof handle[client.header.type] === 'object' && typeof handle[client.header.type][client.header.num] === 'function') {
+                if (typeof handle[client.header.type] === 'object'
+                && typeof handle[client.header.type][client.header.num] === 'function') {
                     if (client.isAuthenticated) {
                         handle[client.header.type][client.header.num](client, client.buffer);
                     }
@@ -72,41 +76,5 @@ function route(client, handle, buffer) {
         }
     }
 }
-
-/*function route(client, handle, buffer) {
-    console.log(buffer);
-    var header = new Header();
-    try {
-        header.parseHeader(buffer);
-        console.log(header.toString());
-        //If defined, execute, else it will throw an exception
-        if (typeof handle[header.type] === 'object' && typeof handle[header.type][header.num] === 'function') {
-            //If the client is authenticated
-            if (client.isAuthenticated) {
-                //execute the action corresponding to the protocol
-                if (header.size > 12) {
-                    handle[header.type][header.num](client, buffer.slice(12,12+header.size));
-                } else {
-                    handle[header.type][header.num](client, null);
-                }
-            }
-            //If the client needs to authenticate
-            else if (header.type === "\0REQ" && header.num === 29) {
-                handle["\0REQ"][29](client, buffer.slice(12,12+header.size));
-            }
-            //If the client needs to authenticate and sent the wrong header
-            else {
-                client.end();
-            }
-        } else {
-            console.log("Wrong header from client "+typeof handle[header.type][header.num]);
-            client.end();
-        }
-    } catch (err) {
-        console.log(err);
-        global.errorLog.notice("Routing error : %s",err);
-        client.end();
-    }
-}*/
 
 exports.route = route;

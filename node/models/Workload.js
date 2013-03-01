@@ -242,7 +242,7 @@ Workload.prototype.sendToWorker = function(worker) {
             else if(typeof err === "object") global.errorLog.error(err.message);
         }
         else {
-            var header = new Header("\0REQ",8);
+            var header = new Header(Header.REQ,Header.SUBMIT_WORKLOAD);
             var finalB = header.appendHeader(data);
             worker.socket.write(finalB,"binary", function() {
                 console.log("Wl "+self._id+" sent to "+worker.hostname);

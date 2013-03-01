@@ -76,3 +76,36 @@ Header.prototype.appendHeader = function(data) {
 Header.prototype.toString = function() { return "Type:"+this.type+" #"+this.num+" Size:"+this.size;}
 
 module.exports = Header;
+/**
+Constants definition of header values
+**/
+module.exports.REQ = "\0REQ";
+module.exports.RES = "\0RES";
+module.exports.SUBMIT_JOB = 3;
+module.exports.JOB_CREATED = 4;
+module.exports.WORK_AVAILABLE = 5;
+module.exports.NO_WORK = 6;
+module.exports.WORK_READY = 7;
+module.exports.SUBMIT_WORKLOAD = 8;
+module.exports.WORKLOAD_RECEIVED = 9;
+module.exports.JOB_STATUS_IS = 10;
+module.exports.JOB_STATUS = 11;
+module.exports.WORK_STATUS_REQ = 12;
+module.exports.WORK_STATUS = 13;
+module.exports.WORK_COMPLETE = 14;
+module.exports.WORK_FAIL = 15;
+module.exports.ECHO_REQ = 16;
+module.exports.ECHO_RES = 17;
+module.exports.ERROR = 18;
+module.exports.WORKER_SPECS_REQ = 19;
+module.exports.WORKER_SPECS_RES = 20;
+module.exports.SET_WORKER_OPTS = 21;
+module.exports.SET_WORKER_OPTS_DONE = 22;
+module.exports.GET_WORKER_OPTS = 23;
+module.exports.GET_WORKER_OPTS_DONE = 24;
+module.exports.SET_GROUP = 25;
+module.exports.SET_GROUP_DONE = 26;
+module.exports.GET_GROUP = 27;
+module.exports.GET_GROUP_DONE = 28;
+module.exports.WORKER_CONNEC_REQ = 29;
+module.exports.WORKER_CONNEC = 30;
