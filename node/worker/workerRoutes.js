@@ -1,8 +1,8 @@
 /**
-This is the routes file, where each action corresponding to the header are defined
+This is the routes file for a worker (test/dev purpose for now), where each action corresponding to the header are defined
 **/
-var requestHandlers = require("./requestHandlers")
-, H = require("./models/Header")
+var requestHandlers = require("./requestHandlersWorker")
+, H = require("../models/Header")
 , handle = {};
 
 
@@ -11,14 +11,14 @@ handle[H.RES] = {};
 
 //handle[H.REQ][1] = undefined; 
 //handle[H.RES][2] = undefined;
-handle[H.REQ][H.SUBMIT_JOB] = requestHandlers.newJob;
-//handle[H.RES][H.JOB_CREATED] = undefined; //To me
-handle[H.REQ][H.WORK_AVAILABLE] = requestHandlers.work_available;
-//handle[H.RES][H.NO_WORK] = undefined; //RESPONSE TO WORKER
-//handle[H.RES][H.WORK_READY] = undefined; //RESPONSE TO WORKER
-//handle[H.REQ][H.SUBMIT_WORKLOAD] = undefined; //REQUEST TO WORKER
-handle[H.RES][H.WORKLOAD_RECEIVED] = requestHandlers.workload_received;
-handle[H.REQ][H.JOB_STATUS_IS] = requestHandlers.job_status;
+//handle[H.REQ][H.SUBMIT_JOB] = undefined;
+//handle[H.RES][H.JOB_CREATED] = undefined;
+//handle[H.REQ][H.WORK_AVAILABLE] = requestHandlers.work_available;
+handle[H.RES][H.NO_WORK] = requestHandlers.noWork;
+handle[H.RES][H.WORK_READY] = requestHandlers.workReady; //RESPONSE TO WORKER
+handle[H.REQ][H.SUBMIT_WORKLOAD] = requestHandlers.submitWorkload; //REQUEST TO WORKER
+//handle[H.RES][H.WORKLOAD_RECEIVED] = requestHandlers.workload_received;
+handle[H.REQ][H.JOB_STATUS_IS] = requestHandlers.jobStatus;
 //handle[H.RES][H.JOB_STATUS] = undefined; //RESPONSE TO BROWSER
 handle[H.REQ][H.WORK_STATUS_REQ] = requestHandlers.workload_status_req;
 handle[H.RES][H.WORK_STATUS] = requestHandlers.workload_status;

@@ -1,7 +1,7 @@
 /**
-This is the routes file, where each action corresponding to the header are defined
+This is the routes file for a job server, where each action corresponding to the header are defined
 **/
-var requestHandlers = require("./requestHandlers")
+var requestHandlers = require("./requestHandlersServer")
 , H = require("./models/Header")
 , handle = {};
 
