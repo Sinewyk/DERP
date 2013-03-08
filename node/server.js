@@ -32,8 +32,6 @@ function start(route, handle) {
         });
 
         client.on("data", function(data) {
-            //console.log("Routing");
-            console.log(data);
             route(client,handle,data);
         });
         

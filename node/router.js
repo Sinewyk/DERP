@@ -7,10 +7,10 @@ var Header = require('./models/Header');
 * @param buffer Buffer object
 */
 function route(client, handle, buffer) {
-    //console.log(buffer);
+    console.log(buffer);
+    console.log(buffer.toString());
     var header = new Header();
-    try {
-        header.parseHeader(buffer);
+    if(header.parseHeader(buffer)) {
         client.header = header;
         //console.log(client.header.toString());
         // HEADER , NO EXCEPTION //
@@ -56,7 +56,8 @@ function route(client, handle, buffer) {
         }
     }
     //NOT A HEADER
-    catch (err) {
+    else {
+        console.log(err);
         //IF CONCATENATION NOT OVER
         if(client.concatOver === false) {
             client.buffer = Buffer.concat([client.buffer,buffer],client.buffer.length+buffer.length);

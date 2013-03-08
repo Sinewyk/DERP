@@ -30,9 +30,10 @@ function workerSpecsReq(client, data) {
     //TODO Need a model for a worker ... worker side
     //rep worker specs or something ...
     var header = new Header(Header.RES,Header.WORKER_SPECS_RES);
-    var finalB = header.appendHeader("test");
-    console.Log(finalB);
-    client.write(finalB,"binary",function() {console.log("Finished workerSpecsRes :"+finalB.toString());});
+    var finalB = header.appendHeader('{"wtf":"lol"}');
+    client.write(finalB,"binary",function() {
+        console.log("Finished workerSpecsRes :\n"+finalB.toString());
+    });
 }
 
 function workerConecRes(client, data) {
