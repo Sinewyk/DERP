@@ -31,6 +31,7 @@ function route(client, handle, buffer) {
                     }
                     //If the client needs to authenticate and sent the wrong header
                     else {
+                        console.log("Router kick 1");
                         client.end();
                     }
                 }
@@ -48,6 +49,7 @@ function route(client, handle, buffer) {
                 }
                 //If the client needs to authenticate and sent the wrong header
                 else {
+                    console.log("Router kick 2");
                     client.end();
                 }
             }
@@ -67,11 +69,13 @@ function route(client, handle, buffer) {
                         handle[client.header.type][client.header.num](client, client.buffer);
                     }
                     else {
+                        console.log("Router kick 3");
                         client.end();
                     }
                 }
             }
         } else {
+            console.log("Router kick 4");
             client.end();
         }
     }
