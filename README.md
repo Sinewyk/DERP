@@ -27,7 +27,7 @@ With the contribution of our mentor
 
 If you need help ...
  * [click right here for ubuntu](http://www.lmgtfy.com/?q=install+php5+apache2+ubuntu)
- * [here for windows]((http://www.lmgtfy.com/?q=install+php5+apache2+windows)
+ * [here for windows](http://www.lmgtfy.com/?q=install+php5+apache2+windows)
  * [and here for mac](http://www.lmgtfy.com/?q=install+php5+apache2+mac)
  
 You can stop right here if you have problems following.
