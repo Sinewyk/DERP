@@ -1,7 +1,7 @@
 /**
-This is the routes file, where each action corresponding to the header are defined
+This is the routes file for a job server, where each action corresponding to the header are defined
 **/
-var requestHandlers = require("./requestHandlers")
+var requestHandlers = require("./requestHandlersServer")
 , H = require("./models/Header")
 , handle = {};
 
@@ -39,5 +39,7 @@ handle[H.REQ][H.GET_GROUP] = requestHandlers.get_group;
 //handle[H.RES][H.GET_GROUP_DONE] = undefined;
 handle[H.REQ][H.WORKER_CONNEC_REQ] = requestHandlers.worker_conec_req;
 //handle[H.RES][H.WORKER_CONNEC] = undefined;
+
+handle.lostConnection = requestHandlers.lostConnection;
 
 module.exports = handle;

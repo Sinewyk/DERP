@@ -37,11 +37,12 @@ Header.prototype.parseHeader = function(buffer) {
             (this.type === "\0REQ" || this.type === "\0RES") &&
             typeof this.num === "number" &&
             typeof this.size === "number")
-        ) throw "Header : wrong header types";
+        ) return false;
     }
     else {
-        throw "Header too small";
+        return false;
     }
+    return true;
 }
 
 /**
@@ -63,10 +64,20 @@ Header.prototype.createHeader = function() {
 * @return Buffer object
 */
 Header.prototype.appendHeader = function(data) {
-    this.size = data.length;
-    var headerBuffer = this.createHeader();
-    data = Buffer.concat(Array(headerBuffer,data),headerBuffer.length+data.length);
-    return data;
+    if(data.__proto__ === Buffer.prototype) {
+        this.size = data.length;
+        var headerBuffer = this.createHeader();
+        data = Buffer.concat(Array(headerBuffer,data),headerBuffer.length+data.length);
+        return data;
+    }
+    else {
+        this.size = data.toString().length;
+        var tmpBuffer = new Buffer(this.size);
+        tmpBuffer.write(data.toString());
+        var headerBuffer = this.createHeader();
+        data = Buffer.concat(Array(headerBuffer,tmpBuffer),headerBuffer.length+tmpBuffer.length);
+        return data;
+    }
 }
 
 /**
