@@ -263,6 +263,11 @@ QueuesHandler.prototype.workerFinishedWork = function(worker, data) {
     });
 }
 
+QueuesHandler.prototype.removeWorker = function(worker) {
+    this.available_worker_Q.remove(worker);
+    this.workersInfo();
+}
+
 /**
 * Find the job corresponding to the workload
 * @param workload Workload object
@@ -305,10 +310,17 @@ QueuesHandler.prototype.areWorkloadsWaiting = function() {
 }
 
 QueuesHandler.prototype.workloadsInfo = function() {
-    console.log("Nombre de workloads en attente");
+    console.log("Nombre de workloads en attente :");
     console.log(this.waiting_workload_Q.length);
-    console.log("Nombre de workloads envoyes");
+    console.log("Nombre de workloads envoyes :");
     console.log(this.sent_workload_Q.length);
+}
+
+QueuesHandler.prototype.workersInfo = function() {
+    console.log("Nombres de workers disponible :");
+    console.log(this.available_worker_Q.length);
+    console.log("Nombres de workers occupés :");
+    console.log(this.busy_worker_Q.length);
 }
 
 module.exports = QueuesHandler;

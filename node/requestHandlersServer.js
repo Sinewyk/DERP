@@ -16,6 +16,7 @@ qh.on("workload_ready", function(workload) {
 qh.on("worker_available", function(worker) {
     console.log("worker_available !");
     this.workloadsInfo();
+    this.workersInfo();
     if(qh.areWorkloadsWaiting()) qh.findWorkloadForWorker(worker);
 });
 
@@ -121,7 +122,7 @@ function worker_specs_res(client, data) {
             console.log("Error reading specs data");
         }
         else {
-            console.log(data.toString());
+            console.log("Specs received :\n", data.toString());
             client.worker.updateSpecs(data, function(err) {
                 if(err) {
                     console.log(err);
@@ -179,6 +180,22 @@ function worker_conec_req(client, data) {
     }
 }
 
+//This is the "cleanup" function that gets called when we lose connection with a worker
+function lostConnection(client) {
+    console.log("Lost connection with ",client);
+    //The worker was working, cleanup workload stuff, refresh waiting_workload_Q
+    if(client.worker.workload !== null) {
+        console.log("Worker was working, remove/clean workload, then remove it");
+    } 
+    //It wasn't working, simply remove the worker from the available_worker_Q
+    else {
+        console.log("Worker wasn't working, remove it");
+        qh.removeWorker(client.worker);
+        client.worker = null;
+        //@TODO update db
+    }
+}
+
 module.exports.newJob = newJob;
 module.exports.work_available = work_available;
 module.exports.workload_received = workload_received;
@@ -197,3 +214,4 @@ module.exports.get_worker_opts = get_worker_opts;
 module.exports.set_group = set_group;
 module.exports.get_group = get_group;
 module.exports.worker_conec_req = worker_conec_req;
+module.exports.lostConnection = lostConnection;

@@ -40,4 +40,6 @@ handle[H.REQ][H.GET_GROUP] = requestHandlers.get_group;
 handle[H.REQ][H.WORKER_CONNEC_REQ] = requestHandlers.worker_conec_req;
 //handle[H.RES][H.WORKER_CONNEC] = undefined;
 
+handle.lostConnection = requestHandlers.lostConnection;
+
 module.exports = handle;

@@ -35,6 +35,7 @@ function start(route, handle) {
             route(client,handle,data);
         });
         
+        //Error event listener
         client.on("error", function(err) {
             console.log("error event fired");
             //global.errorLog.warn("Unknown client error %s",err);
@@ -42,8 +43,13 @@ function start(route, handle) {
             //remove worker and stuff
         });
         
-        //Close event always fired right after an Error event
+        //End event listener, should be on a "fin" TCP packet
+        client.on("end", function() {
+            console.log("Received FIN packet, closing");
+        });
         
+        
+        //Close event, fired after an end event or error event
         client.on("close", function(had_error) {
             if(had_error) {
                 global.errorLog.notice("Crash from client");
@@ -52,15 +58,13 @@ function start(route, handle) {
             } else {
                 console.log("socket closed : normal");
             }
+            //remove client.worker from queues, destroy everything in db and memory ...
+            handle.lostConnection(this);
         });
         
         client.on("timeout", function() {
             //do stuff timeout, packet revive or something ?
             console.log("Timeout ... deal with it ?");
-        });
-
-        client.on("end", function() {
-            console.log("Received FIN packet, closing");
         });
     }
 
