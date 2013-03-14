@@ -174,10 +174,28 @@ QueuesHandler.prototype.removeWorker = function(worker) {
 }
 
 /**
+* Process a finished job, save it in history, agglomerate all workloads results
+* make a link to the zip available, and save it to the db, and remove it (remove all processed
+* workloads from the sent_workload_Q)
+* @param job Job object
+*/
+QueuesHandler.prototype.processJobFinished = function(job) {
+    job.finalizeResult();
+    job.save();
+    this.removeJob(job);
+    console.log("Job over "+job.toString());
+}
+
+/**
 * Remove a job
 * @param job Job object
 */
 QueuesHandler.prototype.removeJob = function(job) {
+    var self = this;
+    _.each(this.sent_workload_Q, function(element, index, list) {
+        if(element.job === job) this.sent_workload_Q.remove(element);
+    });
+    //@TODO Save in the job history
 }
 
 /**
@@ -251,10 +269,10 @@ QueuesHandler.prototype.workerFinishedWork = function(worker, data) {
         else {
             console.log("Worker finished workload "+worker.workload._id);
             worker.workload.status = "finished";
+            worker.workload = null;
             self.busy_worker_Q.remove(worker);
             self.available_worker_Q.push(worker);
             self.emit("worker_available", worker);
-            //test stuff for job finish
         }
         workload.job.progress++;
         workload.job.save(dbManager);
@@ -275,7 +293,6 @@ QueuesHandler.prototype.removeWorker = function(worker) {
 * @return Job object
 */
 QueuesHandler.prototype.findJobByWorkload = function(workload) {
-    //return _.where(this.job_Q,{_id:workload.jobId})[0];
     return workload.job;
 }
 
@@ -296,7 +313,6 @@ QueuesHandler.prototype.findGroupByName = function(name) {
 * @return Workload object
 */
 QueuesHandler.prototype.findWorkloadByWorker = function(worker) {
-    //return _.where(this.sent_workload_Q,{_id:worker.workloadId})[0];
     return worker.workload;
 }
 

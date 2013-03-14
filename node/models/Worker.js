@@ -29,6 +29,10 @@ var Worker = function(object) {
     if(typeof object === "object") _.extend(this,object);
 };
 
+Worker.prototype.toString = function() {
+    return this.hostname+" at ip:"+this.ipAddress;
+}
+
 
 /**
 * Asks the dbManager to save the worker

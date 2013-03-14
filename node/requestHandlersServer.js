@@ -22,7 +22,7 @@ qh.on("worker_available", function(worker) {
 
 qh.on("job_finished", function(job) {
     console.log("job_finished");
-    //this.processJobResults(job);
+    this.processJobFinished(job);
 });
 
 //When we receive a new job request from the browser
@@ -174,6 +174,7 @@ function worker_conec_req(client, data) {
             //Here a worker is assigned to that client, but it's still not available in the QueuesHandler
             //We need its specs first
             client.worker.socket = client;
+            client.worker.ipAddress = client.remoteAddress;
         }
     } else {
         client.end();
@@ -182,14 +183,15 @@ function worker_conec_req(client, data) {
 
 //This is the "cleanup" function that gets called when we lose connection with a worker
 function lostConnection(client) {
-    console.log("Lost connection with ",client);
+    console.log("Lost connection with",client.worker.toString());
     //The worker was working, cleanup workload stuff, refresh waiting_workload_Q
     if(client.worker.workload !== null) {
         console.log("Worker was working, remove/clean workload, then remove it");
+        //@TODO update db, process the switch of workloads from
+        //sent_workload_Q to waiting_workload_Q
     } 
     //It wasn't working, simply remove the worker from the available_worker_Q
     else {
-        console.log("Worker wasn't working, remove it");
         qh.removeWorker(client.worker);
         client.worker = null;
         //@TODO update db

@@ -39,6 +39,10 @@ var Job = function(object) {
     this._id = this.owner+"_"+this.name;
 };
 
+Job.prototype.toString = function() {
+    return this.name+", runs:"+this.nbRun;
+}
+
 /**
 * Ask the dbManager to save the job, omitting some members
 * @param dbManager
@@ -115,10 +119,10 @@ Job.prototype.createDir = function(callback) {
 }
 
 /**
-*
-*
+* Finalize the job
 */
 Job.prototype.finalizeResult = function(callback) {
+    //@TODO Agglomerate all results, set state, set zip link, all that stuff
 }
 
 module.exports = Job;
