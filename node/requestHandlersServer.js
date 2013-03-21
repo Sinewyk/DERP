@@ -177,25 +177,31 @@ function worker_conec_req(client, data) {
             client.worker.ipAddress = client.remoteAddress;
         }
     } else {
+        console.log("Client not a worker => kick !");
         client.end();
     }
 }
 
 //This is the "cleanup" function that gets called when we lose connection with a worker
 function lostConnection(client) {
-    console.log("Lost connection with",client.worker.toString());
-    //The worker was working, cleanup workload stuff, refresh waiting_workload_Q
-    if(client.worker.workload !== null) {
-        console.log("Worker was working, remove/clean workload, then remove it");
-        //@TODO update db, process the switch of workloads from
-        //sent_workload_Q to waiting_workload_Q
-    } 
-    //It wasn't working, simply remove the worker from the available_worker_Q
-    else {
-        qh.removeWorker(client.worker);
-        client.worker = null;
-        //@TODO update db
+    if(typeof(client.worker) === "undefined") {
+        console.log("Lost connection while connecting");
+    } else {
+        console.log("Lost connection with",client.worker.toString());
+        //The worker was working, cleanup workload stuff, refresh waiting_workload_Q
+        if(client.worker.workload !== null) {
+            console.log("Worker was working, remove/clean workload, then remove it");
+            //@TODO update db, process the switch of workloads from
+            //sent_workload_Q to waiting_workload_Q
+        } 
+        //It wasn't working, simply remove the worker from the available_worker_Q
+        else {
+            qh.removeWorker(client.worker);
+            client.worker = null;
+            //@TODO update db
+        }
     }
+    
 }
 
 module.exports.newJob = newJob;

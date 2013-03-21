@@ -9,29 +9,29 @@ function start(route, handle) {
     //'connection' listener
     function onConnection(client) {
         //connection successfully established
-        client.on("connect", function() {
-            this.header = null;
-            this.concatOver = true;
-            this.buffer = null;
-            client.isAuthenticated = false;
-            
-            console.log("New client",client.remoteAddress);
-            global.accessLog.info('New client %s',client.remoteAddress);
-            //It's the browser, in hope that kaazing gateway change the remoteAddress
-            /*if(client.remoteAddress === "127.0.0.1") {
-                console.log("It's the browser !");
-                client.type = "browser";
-                client.isAuthenticated = true;
-            } else { //It's a worker (maybe), need to authenticate or something :o
-                client.type = "worker";
-                client.isAuthenticated = false;
-            }*/
-            
-            //debugging purposes to simulate worker on localhost
+
+        client.header = null;
+        client.concatOver = true;
+        client.buffer = null;
+        client.isAuthenticated = false;
+        
+        console.log("New client",client.remoteAddress);
+        global.accessLog.info('New client %s',client.remoteAddress);
+        //It's the browser, in hope that kaazing gateway change the remoteAddress
+        /*if(client.remoteAddress === "127.0.0.1") {
+            console.log("It's the browser !");
+            client.type = "browser";
+            client.isAuthenticated = true;
+        } else { //It's a worker (maybe), need to authenticate or something :o
             client.type = "worker";
-        });
+            client.isAuthenticated = false;
+        }*/
+        
+        //debugging purposes to simulate worker on localhost
+        client.type = "worker";
 
         client.on("data", function(data) {
+            console.log("data :",data);
             route(client,handle,data);
         });
         

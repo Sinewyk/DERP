@@ -60,7 +60,6 @@ function route(client, handle, buffer) {
     }
     //NOT A HEADER
     else {
-        console.log(err);
         //IF CONCATENATION NOT OVER
         if(client.concatOver === false) {
             client.buffer = Buffer.concat([client.buffer,buffer],client.buffer.length+buffer.length);
