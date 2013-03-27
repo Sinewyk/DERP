@@ -9,7 +9,7 @@ var _ = require('underscore');
 *
 * @return Group object
 */
-var Group = function(object) {
+function Group(object) {
     this._id = null;
     this.name = "group_name";
     this.numberWin = 0;

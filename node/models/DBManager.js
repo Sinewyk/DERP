@@ -4,7 +4,7 @@ This should have all the parts concerning the handling of the database mongodb (
 
 var MongoClient = require('mongodb').MongoClient;
 
-var DBManager = function(db,host,port,dbname) {
+function DBManager(db,host,port,dbname) {
     if(typeof db === "undefined") this.db = "mongodb";
     if(typeof host === "undefined") this.host = "localhost";
     if(typeof port === "undefined") this.port = 27017;

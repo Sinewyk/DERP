@@ -13,9 +13,7 @@ var util = require('util')
 /**
 * QueuesHandler object, inherits from EventEmitter
 */
-var QueuesHandler = function() {
-    EE.call(this);
-    
+function QueuesHandler() {
     this.job_Q = new Array();
     this.available_worker_Q = new Array();
     this.busy_worker_Q = new Array();

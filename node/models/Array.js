@@ -11,3 +11,14 @@ Array.prototype.remove = function() {
     }
     return this;
 };
+
+/**
+The arguments global variable apparently slow considerably,
+it should be used only when there's multiple things to delete
+**/
+Array.prototype.singleRemove = function(objectToRemove) {
+    if ((index = this.indexOf(objectToRemove)) !== -1) {
+        this.splice(index,1);
+    }
+    return this;
+}

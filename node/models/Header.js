@@ -6,7 +6,7 @@
 *
 * @return Header object
 */
-var Header = function(type, num, size) {
+function Header(type, num, size) {
     if(typeof type === "undefined") this.type = null;
     else this.type = type;
     if(typeof num === "undefined") this.num = null;

@@ -10,7 +10,7 @@ var _ = require('underscore')
 *
 * @return Worker object
 */
-var Worker = function(object) {
+function Worker(object) {
     this._id = null;
     this.hostname = null;
     this.state = "waiting"; //A voir si j'ai vraiment besoin <=> working

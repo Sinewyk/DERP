@@ -10,7 +10,7 @@ var _ = require("underscore")
 *
 * @return Job object
 */
-var Job = function(object) {
+function Job(object) {
     this.path = null;
     this.winPath = null;
     this.linuxPath = null;

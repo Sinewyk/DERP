@@ -14,7 +14,7 @@ var _ = require('underscore')
 *
 * @return Workload object
 */
-var Workload = function(object) {
+function Workload(object) {
     this._id = null;
     this.jobId = null;
 	this.job = null;
@@ -39,7 +39,7 @@ var Workload = function(object) {
 *
 * @return Workload object
 */
-var _createJobDir = function(path, workload, callback) {
+function _createJobDir(path, workload, callback) {
     fs.exists(path, function(exists) {
         if(!exists) {
             fs.mkdir(path,"0777",function(err) {
@@ -92,7 +92,7 @@ Workload.prototype.createDir = function(job, callback) {
 * @param workload Workload object
 * @param job Job object
 */
-var prepXml = function(workload, job) {
+function prepXml(workload, job) {
     var xw = new XMLWriter;
     var ws = fs.createWriteStream(workload.dir+'/config.xml',{flags:'w'});
 
@@ -120,7 +120,7 @@ var prepXml = function(workload, job) {
 * @param job Job object
 * @param callback
 */
-var prepZip = function(workload, job, callback) {
+function prepZip(workload, job, callback) {
     //iterating over the jobs path
     _.each({'win':job.winPath,'linux':job.linuxPath,'mac':job.macPath}, function(element, index, list) {
         //If the job has a path
