@@ -89,15 +89,26 @@ DBManager.prototype.saveWorker = function(worker) {
     if(this.connected)
     {
         var collection = this.db.collection('Worker');
-        collection.findOne({'_id':worker._id}, function(err, doc){
-            if(doc === null)
-            {
-                //we create it
-                collection.insert(worker, {w:1}, function(err, result) {});
-            }else
-            {
-                //we update it
-                collection.save(worker, {w:1}, function(err, result) {});
+        collection.findOne({'hostname':worker.hostname,'ipAddress':worker.ipAddress}, function(err, doc){
+            if(err) {
+                reportError(err);
+            } else {
+                if(doc === null)
+                {
+                    //we create it
+                    collection.insert(worker, {w:1}, function(err, result) {
+                        if(err) {
+                            reportError(err);
+                        }
+                    });
+                } else {
+                    //we update it
+                    collection.update(worker, {w:1}, function(err, result) {
+                        if(err) {
+                            reportError(err);
+                        }
+                    });
+                }
             }
         });
     }

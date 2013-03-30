@@ -35,9 +35,7 @@ QueuesHandler.prototype.addJob = function(job) {
     job.createDir(function(err) {
         //If there was an error
         if(err) {
-            console.log(err);
-            if(typeof err === "string") errorLog.error(err);
-            else if(typeof err === "object") errorLog.error(err.message);
+            reportError(err);
             job.delete(dbManager);
             self.job_Q.singleRemove(job);
         } else {
@@ -48,16 +46,12 @@ QueuesHandler.prototype.addJob = function(job) {
                 self.waiting_workload_Q.push(workload);
                 workload.createDir(job, function(err) {
                     if(err) {
-                        console.log(err);
-                        if(typeof err === "string") errorLog.error(err);
-                        else if(typeof err === "object") errorLog.error(err.stack);
+                        reportError(err);
                         self.waiting_workload_Q.singleRemove(workload);
                     } else {
                         workload.prepare(job, function(err) {
                             if(err) {
-                                console.log(err);
-                                if(typeof err === "string") errorLog.error(err);
-                                else if(typeof err === "object") errorLog.error(err.message);
+                                reportError(err);
                                 job.delete(dbManager);
                                 self.job_Q.singleRemove(job);
                             } else {
@@ -114,9 +108,7 @@ QueuesHandler.prototype.sendWorkload = function(workload) {
         }
     }
     catch (err) {
-        console.log(err);
-        if(typeof err === "string") errorLog.error(err);
-        else if(typeof err === "object") errorLog.error(err.message);
+        reportError(err);
     }
 }
 
@@ -144,9 +136,7 @@ QueuesHandler.prototype.findWorkloadForWorker = function(worker) {
         }
     })
     .on('error', function(err) {
-        console.log(err);
-        if(typeof err === "string") errorLog.error(err);
-        else if(typeof err === "object") errorLog.error(err.message);
+        reportError(err);
     })
     .on('end', function(count) {
         console.log("Worker specs don't meet workloads specs, worker still waiting");
@@ -260,9 +250,7 @@ QueuesHandler.prototype.workerFinishedWork = function(worker, data) {
     workload.saveResult(data, function(err) {
         if(err) {
             workload.status = "fail";
-            console.log(err);
-            if(typeof err === "string") errorLog.error(err);
-            else if(typeof err === "object") errorLog.error(err.message);
+            reportError(err);
         }
         else {
             console.log("Worker finished workload "+worker.workload._id);

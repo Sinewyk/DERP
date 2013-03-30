@@ -237,9 +237,7 @@ Workload.prototype.sendToWorker = function(worker) {
     console.log(debug);
     fs.readFile(self.dir+"/workload_"+worker.OS[worker.os]+".zip", function(err, data) {
         if(err) {
-            console.log(err);
-            if(typeof err === "string") errorLog.error(err);
-            else if(typeof err === "object") errorLog.error(err.message);
+            reportError(err);
         }
         else {
             var header = new Header(Header.REQ,Header.SUBMIT_WORKLOAD);

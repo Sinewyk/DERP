@@ -30,6 +30,15 @@ if(process.argv.indexOf("-debug") === -1) {
 
 console.log("Started app with config :\n", config);
 
+global.reportError = function(err) {
+    console.log(err);
+    if(typeof err === "string") errorLog.error(err);
+    else if(typeof err === "object") {
+        errorLog.error(err.message);
+        errorLog.error(err.stack);
+    }
+};
+
 global.config = config;
 
 //Start the server

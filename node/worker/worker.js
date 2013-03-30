@@ -24,7 +24,7 @@ function start(route, handle) {
     });
 
     client.on("error", function(err) {
-        console.log(err);
+        reportError(err);
     });
 
     client.on("end", function() {

@@ -39,7 +39,7 @@ function start(route, handle) {
         client.on("error", function(err) {
             console.log("error event fired");
             //errorLog.warn("Unknown client error %s",err);
-            console.log(err);
+            reportError(err);
             //remove worker and stuff
         });
         
@@ -71,8 +71,7 @@ function start(route, handle) {
     var server = net.createServer(onConnection);
     
     server.on("error", function(err) {
-        console.log("Server error "+err);
-        errorLog.error("Server error %s", err);
+        reportError(err);
     });
     
     server.listen(config.server_port,config.server_host, function() { //'listening' listener

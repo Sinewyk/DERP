@@ -125,9 +125,7 @@ function worker_specs_res(client, data) {
             console.log("Specs received :\n", data.toString());
             client.worker.updateSpecs(data, function(err) {
                 if(err) {
-                    console.log(err);
-                    if(typeof err === "string") errorLog.error(err);
-                    else if(typeof err === "object") errorLog.error(err.message);
+                    reportError(err);
                 }
                 else {
                     qh.newWorker(client.worker);
