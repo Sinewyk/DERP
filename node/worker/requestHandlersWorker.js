@@ -30,7 +30,8 @@ function workerSpecsReq(client, data) {
     //TODO Need a model for a worker ... worker side
     //rep worker specs or something ...
     var header = new Header(Header.RES,Header.WORKER_SPECS_RES);
-    var finalB = header.appendHeader('{"hostname":"Sinewyk-Worker"}');
+    var finalB = header.appendHeader(
+        '{"hostname":"Sinewyk-Worker","nbOfCore":"2","os":"Windows 7","RAM":"16252928","ipAddress":"192.168.1.4"}');
     client.write(finalB,"binary",function() {
         console.log("Finished workerSpecsRes :\n"+finalB.toString());
     });

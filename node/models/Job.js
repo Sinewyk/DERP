@@ -33,7 +33,7 @@ function Job(object) {
     this.resultFile = null;
     
     // Kind of copy constructor
-    if(typeof object === "object") _.extend(this,object);
+    if(typeof object === "object") _.extend(this, object);
     this.parametersList = JSON.parse(this.parametersList);
     
     this._id = this.owner+"_"+this.name;
@@ -71,7 +71,7 @@ Job.prototype.delete = function(dbManager) {
 var _createJobDir = function(path, job, callback) {
     fs.exists(path, function(exists) {
         if(!exists) {
-            fs.mkdir(path,"0777",function(err) {
+            fs.mkdir(path, "0777", function(err) {
                 if(err) {
                     callback(err);
                 } else {
@@ -81,7 +81,7 @@ var _createJobDir = function(path, job, callback) {
             });
         } else {
             console.log("/jobs/job folder already exists, rename your job");
-            global.errorLog.error("Rename your job, can't create job folder");
+            errorLog.error("Rename your job, can't create job folder");
             callback("Rename your job, can't create job folder");
         }
     });
@@ -93,7 +93,7 @@ var _createJobDir = function(path, job, callback) {
 * @param callback
 */
 Job.prototype.createDir = function(callback) {
-    var jobs_path = global.config["base_node_dir"]+"/jobs";
+    var jobs_path = config.base_node_dir+"/jobs";
     var job_path = jobs_path+"/job_"+this.owner+"_"+this.name;
     var self = this;
     

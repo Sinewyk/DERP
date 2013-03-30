@@ -62,7 +62,7 @@ function route(client, handle, buffer) {
     else {
         //IF CONCATENATION NOT OVER
         if(client.concatOver === false) {
-            client.buffer = Buffer.concat([client.buffer,buffer],client.buffer.length+buffer.length);
+            client.buffer = Buffer.concat([client.buffer, buffer], client.buffer.length+buffer.length);
             //console.log("Concatenating, download% : "+((client.buffer.length/client.header.size)*100));
             if(client.buffer.length == client.header.size) {
                 client.concatOver = true;

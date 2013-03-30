@@ -27,7 +27,7 @@ function Group(object) {
     this.end_min = 0;
     
     // Kind of copy constructor
-    if(typeof object === "object") _.extend(this,object);
+    if(typeof object === "object") _.extend(this, object);
 };
 
 /**

@@ -22,8 +22,8 @@ function Header(type, num, size) {
 * @return String
 */
 Header.prototype.parseHeader = function(buffer) {
-    if(buffer.length>=12) {
-        this.type = buffer.toString('utf8',0,4);
+    if(buffer.length >= 12) {
+        this.type = buffer.toString('utf8', 0, 4);
         this.num = buffer.readInt32BE(4);
         //Check if little endian or big endian
         if(typeof this.num === "number" && this.num > 1000) {
@@ -52,8 +52,8 @@ Header.prototype.parseHeader = function(buffer) {
 Header.prototype.createHeader = function() {
     var buffer = new Buffer(12);
     buffer.write(this.type);
-    buffer.writeInt32BE(this.num,4);
-    buffer.writeInt32BE(this.size,8);
+    buffer.writeInt32BE(this.num, 4);
+    buffer.writeInt32BE(this.size, 8);
     return buffer;
 }
 
@@ -67,7 +67,7 @@ Header.prototype.appendHeader = function(data) {
     if(data.__proto__ === Buffer.prototype) {
         this.size = data.length;
         var headerBuffer = this.createHeader();
-        data = Buffer.concat(Array(headerBuffer,data),headerBuffer.length+data.length);
+        data = Buffer.concat(Array(headerBuffer, data), headerBuffer.length+data.length);
         return data;
     }
     else {
@@ -75,7 +75,7 @@ Header.prototype.appendHeader = function(data) {
         var tmpBuffer = new Buffer(this.size);
         tmpBuffer.write(data.toString());
         var headerBuffer = this.createHeader();
-        data = Buffer.concat(Array(headerBuffer,tmpBuffer),headerBuffer.length+tmpBuffer.length);
+        data = Buffer.concat(Array(headerBuffer, tmpBuffer), headerBuffer.length+tmpBuffer.length);
         return data;
     }
 }

@@ -42,7 +42,7 @@ function Workload(object) {
 function _createJobDir(path, workload, callback) {
     fs.exists(path, function(exists) {
         if(!exists) {
-            fs.mkdir(path,"0777",function(err) {
+            fs.mkdir(path, "0777", function(err) {
                 if(err) {
                     callback(err);
                 } else {
@@ -94,18 +94,18 @@ Workload.prototype.createDir = function(job, callback) {
 */
 function prepXml(workload, job) {
     var xw = new XMLWriter;
-    var ws = fs.createWriteStream(workload.dir+'/config.xml',{flags:'w'});
+    var ws = fs.createWriteStream(workload.dir+'/config.xml', {flags:'w'});
 
     xw.startElement("WorkloadInformation").writeAttribute('xmlns', 'http://www.example.org/WorkloadInformation');
-    xw.writeElement("workloadName",workload._id);
-    xw.writeElement("path","/Workload");
-    xw.writeElement("execConfigurationParameter","1");
-    xw.writeElement("execType","2");
+    xw.writeElement("workloadName", workload._id);
+    xw.writeElement("path", "/Workload");
+    xw.writeElement("execConfigurationParameter", "1");
+    xw.writeElement("execType", "2");
     var paramArray = workload.paramString.split(" ");
-    paramArray = _.without(paramArray,"");
+    paramArray = _.without(paramArray, "");
     xw.startElement("execParameters");
     _.each(paramArray, function(element, index, list) {
-        xw.writeElement("parameter",element);
+        xw.writeElement("parameter", element);
     });
     xw.endElement();
     xw.endDocument();
@@ -235,16 +235,16 @@ Workload.prototype.sendToWorker = function(worker) {
     //Upon chosing the worker, we can chose the workload zip type, that is win, linux or mac
     var debug = self.dir+"/workload_"+worker.OS[worker.os]+".zip";
     console.log(debug);
-    fs.readFile(self.dir+"/workload_"+worker.OS[worker.os]+".zip",function(err, data) {
+    fs.readFile(self.dir+"/workload_"+worker.OS[worker.os]+".zip", function(err, data) {
         if(err) {
             console.log(err);
-            if(typeof err === "string") global.errorLog.error(err);
-            else if(typeof err === "object") global.errorLog.error(err.message);
+            if(typeof err === "string") errorLog.error(err);
+            else if(typeof err === "object") errorLog.error(err.message);
         }
         else {
             var header = new Header(Header.REQ,Header.SUBMIT_WORKLOAD);
             var finalB = header.appendHeader(data);
-            worker.socket.write(finalB,"binary", function() {
+            worker.socket.write(finalB, "binary", function() {
                 console.log("Wl "+self._id+" sent to "+worker.hostname);
             });
 			

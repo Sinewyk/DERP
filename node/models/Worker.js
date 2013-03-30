@@ -26,7 +26,7 @@ function Worker(object) {
     this.socket = null; //Not in database, reference to the socket to send that fucker things
     
     // Kind of copy constructor
-    if(typeof object === "object") _.extend(this,object);
+    if(typeof object === "object") _.extend(this, object);
 };
 
 Worker.prototype.toString = function() {
@@ -40,7 +40,7 @@ Worker.prototype.toString = function() {
 */
 Worker.prototype.save = function(dbManager) {
     //I don't want to save the socket
-    dbManager.saveWorker(_.omit(this,"socket","workload","working"));
+    dbManager.saveWorker(_.omit(this, "socket", "workload", "working", "OS"));
 }
 
 /**
@@ -63,7 +63,7 @@ Worker.prototype.specsRequest = function() {
 Worker.prototype.updateSpecs = function(data, callback) {
     try {
         var specs = JSON.parse(data);
-        if(typeof specs === "object") _.extend(this,specs);
+        if(typeof specs === "object") _.extend(this, specs);
         callback(null);
     } catch(err) {
         callback(err);

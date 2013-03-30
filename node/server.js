@@ -15,8 +15,8 @@ function start(route, handle) {
         client.buffer = null;
         client.isAuthenticated = false;
         
-        console.log("New client",client.remoteAddress);
-        global.accessLog.info('New client %s',client.remoteAddress);
+        console.log("New client", client.remoteAddress);
+        accessLog.info('New client %s', client.remoteAddress);
         //It's the browser, in hope that kaazing gateway change the remoteAddress
         /*if(client.remoteAddress === "127.0.0.1") {
             console.log("It's the browser !");
@@ -31,14 +31,14 @@ function start(route, handle) {
         client.type = "worker";
 
         client.on("data", function(data) {
-            console.log("data :",data);
-            route(client,handle,data);
+            console.log("data :", data);
+            route(client, handle, data);
         });
         
         //Error event listener
         client.on("error", function(err) {
             console.log("error event fired");
-            //global.errorLog.warn("Unknown client error %s",err);
+            //errorLog.warn("Unknown client error %s",err);
             console.log(err);
             //remove worker and stuff
         });
@@ -52,8 +52,8 @@ function start(route, handle) {
         //Close event, fired after an end event or error event
         client.on("close", function(had_error) {
             if(had_error) {
-                global.errorLog.notice("Crash from client");
-                global.accessLog.info("Client closed : crash");
+                errorLog.notice("Crash from client");
+                accessLog.info("Client closed : crash");
                 console.log("socket closed : error");
             } else {
                 console.log("socket closed : normal");
@@ -72,11 +72,11 @@ function start(route, handle) {
     
     server.on("error", function(err) {
         console.log("Server error "+err);
-        global.errorLog.error("Server error %s",err);
+        errorLog.error("Server error %s", err);
     });
     
-    server.listen(global.config["server_port"],global.config["server_host"], function() { //'listening' listener
-        console.log("Server listening on "+global.config["server_host"]+":"+global.config["server_port"]);
+    server.listen(config.server_port,config.server_host, function() { //'listening' listener
+        console.log("Server listening on "+config.server_host+":"+config.server_port);
     });
 }
 

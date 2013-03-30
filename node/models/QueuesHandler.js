@@ -36,30 +36,30 @@ QueuesHandler.prototype.addJob = function(job) {
         //If there was an error
         if(err) {
             console.log(err);
-            if(typeof err === "string") global.errorLog.error(err);
-            else if(typeof err === "object") global.errorLog.error(err.message);
+            if(typeof err === "string") errorLog.error(err);
+            else if(typeof err === "object") errorLog.error(err.message);
             job.delete(dbManager);
-            self.job_Q.remove(job);
+            self.job_Q.singleRemove(job);
         } else {
             //For each execs, prepare them
             each(job.parametersList)
             .on('item', function(element, index, next) {
-                var workload = new Workload({_id:job._id+"_"+index,job:job,jobId:job._id,nb:index,paramString:element});
+                var workload = new Workload({_id:job._id+"_"+index, job:job, jobId:job._id, nb:index, paramString:element});
                 self.waiting_workload_Q.push(workload);
                 workload.createDir(job, function(err) {
                     if(err) {
                         console.log(err);
-                        if(typeof err === "string") global.errorLog.error(err);
-                        else if(typeof err === "object") global.errorLog.error(err.stack);
-                        self.waiting_workload_Q.remove(workload);
+                        if(typeof err === "string") errorLog.error(err);
+                        else if(typeof err === "object") errorLog.error(err.stack);
+                        self.waiting_workload_Q.singleRemove(workload);
                     } else {
                         workload.prepare(job, function(err) {
                             if(err) {
                                 console.log(err);
-                                if(typeof err === "string") global.errorLog.error(err);
-                                else if(typeof err === "object") global.errorLog.error(err.message);
+                                if(typeof err === "string") errorLog.error(err);
+                                else if(typeof err === "object") errorLog.error(err.message);
                                 job.delete(dbManager);
-                                self.job_Q.remove(job);
+                                self.job_Q.singleRemove(job);
                             } else {
                                 self.emit("workload_ready",workload);
                             }
@@ -90,16 +90,16 @@ QueuesHandler.prototype.sendWorkload = function(workload) {
             var job = self.findJobByWorkload(workload);
             var goodWorkers = _.filter(self.available_worker_Q,
             function(worker) {
-                return self.workerOkForThatJob(worker,job);;
+                return self.workerOkForThatJob(worker, job);;
             },
             {job:job});
             if(goodWorkers.length !== 0) {
                 workload.sendToWorker(goodWorkers[0]);
                 
                 self.busy_worker_Q.push(goodWorkers[0]);
-                self.available_worker_Q.remove(goodWorkers[0]);
+                self.available_worker_Q.singleRemove(goodWorkers[0]);
                 self.sent_workload_Q.push(workload);
-                self.waiting_workload_Q.remove(workload);
+                self.waiting_workload_Q.singleRemove(workload);
                 
                 self.workloadsInfo();
             }
@@ -115,8 +115,8 @@ QueuesHandler.prototype.sendWorkload = function(workload) {
     }
     catch (err) {
         console.log(err);
-        if(typeof err === "string") global.errorLog.error(err);
-        else if(typeof err === "object") global.errorLog.error(err.message);
+        if(typeof err === "string") errorLog.error(err);
+        else if(typeof err === "object") errorLog.error(err.message);
     }
 }
 
@@ -127,15 +127,15 @@ QueuesHandler.prototype.sendWorkload = function(workload) {
 QueuesHandler.prototype.findWorkloadForWorker = function(worker) {
     var self = this;
     each(self.waiting_workload_Q)
-    .on('item', function(workload,index,next) {
+    .on('item', function(workload, index, next) {
         var job = self.findJobByWorkload(workload);
-        if(self.workerOkForThatJob(worker,job)) {
+        if(self.workerOkForThatJob(worker, job)) {
             workload.sendToWorker(worker);
             
             self.busy_worker_Q.push(worker);
-            self.available_worker_Q.remove(worker);
+            self.available_worker_Q.singleRemove(worker);
             self.sent_workload_Q.push(workload);
-            self.waiting_workload_Q.remove(workload);
+            self.waiting_workload_Q.singleRemove(workload);
             
             self.workloadsInfo();
         }
@@ -145,8 +145,8 @@ QueuesHandler.prototype.findWorkloadForWorker = function(worker) {
     })
     .on('error', function(err) {
         console.log(err);
-        if(typeof err === "string") global.errorLog.error(err);
-        else if(typeof err === "object") global.errorLog.error(err.message);
+        if(typeof err === "string") errorLog.error(err);
+        else if(typeof err === "object") errorLog.error(err.message);
     })
     .on('end', function(count) {
         console.log("Worker specs don't meet workloads specs, worker still waiting");
@@ -191,7 +191,7 @@ QueuesHandler.prototype.processJobFinished = function(job) {
 QueuesHandler.prototype.removeJob = function(job) {
     var self = this;
     _.each(this.sent_workload_Q, function(element, index, list) {
-        if(element.job === job) this.sent_workload_Q.remove(element);
+        if(element.job === job) this.sent_workload_Q.singleRemove(element);
     });
     //@TODO Save in the job history
 }
@@ -261,8 +261,8 @@ QueuesHandler.prototype.workerFinishedWork = function(worker, data) {
         if(err) {
             workload.status = "fail";
             console.log(err);
-            if(typeof err === "string") global.errorLog.error(err);
-            else if(typeof err === "object") global.errorLog.error(err.message);
+            if(typeof err === "string") errorLog.error(err);
+            else if(typeof err === "object") errorLog.error(err.message);
         }
         else {
             console.log("Worker finished workload "+worker.workload._id);
@@ -275,12 +275,12 @@ QueuesHandler.prototype.workerFinishedWork = function(worker, data) {
         workload.job.progress++;
         workload.job.save(dbManager);
         
-        if(workload.job.progress == workload.job.nbRun) self.emit("job_finished",workload.job);
+        if(workload.job.progress == workload.job.nbRun) self.emit("job_finished", workload.job);
     });
 }
 
 QueuesHandler.prototype.removeWorker = function(worker) {
-    this.available_worker_Q.remove(worker);
+    this.available_worker_Q.singleRemove(worker);
     this.workersInfo();
 }
 
@@ -301,7 +301,7 @@ QueuesHandler.prototype.findJobByWorkload = function(workload) {
 * @return Group object
 */
 QueuesHandler.prototype.findGroupByName = function(name) {
-    return _.where(this.groups,{name:name})[0];
+    return _.where(this.groups, {name:name})[0];
 }
 
 /**

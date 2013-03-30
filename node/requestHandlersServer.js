@@ -60,7 +60,7 @@ function workload_status_req(client, data) {
 //Response from the worker
 function workload_status(client, data) {
     if(client.type === "worker") {
-        console.log("workload status is ",data);
+        console.log("workload status is ", data);
     }
 }
 
@@ -68,14 +68,14 @@ function workload_status(client, data) {
 function workload_status_complete(client, data) {
     if(client.type === "worker") {
         console.log("workload status complete ");
-		qh.workerFinishedWork(client.worker,data);
+		qh.workerFinishedWork(client.worker, data);
     }
 }
 
 //Response from the worker
 function workload_status_fail(client, data) {
     if(client.type === "worker") {
-        console.log("workload status fail ",data);
+        console.log("workload status fail ", data);
     }
 }
 
@@ -83,14 +83,14 @@ function workload_status_fail(client, data) {
 function echo_request(client, data) {
     if(data === null) {
         console.log("Received blank echo_request");
-        var header = new Header(Header.RES,Header.ECHO_RES,0);
+        var header = new Header(Header.RES, Header.ECHO_RES, 0);
         var finalB = header.createHeader();
         client.write(finalB, "binary", function() {console.log("Finished blank echo_response:"+finalB.toString());});
     } else {
         console.log("Received echo_request"+data.toString());
-        var header = new Header(Header.RES,Header.ECHO_RES);
+        var header = new Header(Header.RES, Header.ECHO_RES);
         var finalB = header.appendHeader(data);
-        client.write(finalB,"binary",function() {console.log("Finished echo_response :"+finalB.toString());});
+        client.write(finalB,"binary", function() {console.log("Finished echo_response :"+finalB.toString());});
     }
 }
 
@@ -126,8 +126,8 @@ function worker_specs_res(client, data) {
             client.worker.updateSpecs(data, function(err) {
                 if(err) {
                     console.log(err);
-                    if(typeof err === "string") global.errorLog.error(err);
-                    else if(typeof err === "object") global.errorLog.error(err.message);
+                    if(typeof err === "string") errorLog.error(err);
+                    else if(typeof err === "object") errorLog.error(err.message);
                 }
                 else {
                     qh.newWorker(client.worker);
@@ -154,18 +154,18 @@ function get_group(client, data) {
 function worker_conec_req(client, data) {
     if(client.type === "worker") {
         console.log("Key :"+data);
-        if(typeof data === "undefined" || data === null || data.toString() !== "logon") {
+        if(typeof data === "undefined" || data === null || data.toString() !== config.auth_key) {
             console.log("Wrong authentification");
             client.end();
         } else {
             console.log("Received correct authentification");
             var buf = new Buffer(1);
             buf.writeInt8(0,0);
-            var header = new Header(Header.RES,Header.WORKER_CONNEC);
+            var header = new Header(Header.RES, Header.WORKER_CONNEC);
             var finalB = header.appendHeader(buf);
             console.log(finalB);
             console.log(finalB.toString());
-            client.write(finalB,"binary",function() {
+            client.write(finalB, "binary", function() {
                 client.worker.specsRequest();
             });
             client.isAuthenticated = true;
@@ -187,7 +187,7 @@ function lostConnection(client) {
     if(typeof(client.worker) === "undefined") {
         console.log("Lost connection while connecting");
     } else {
-        console.log("Lost connection with",client.worker.toString());
+        console.log("Lost connection with", client.worker.toString());
         //The worker was working, cleanup workload stuff, refresh waiting_workload_Q
         if(client.worker.workload !== null) {
             console.log("Worker was working, remove/clean workload, then remove it");
