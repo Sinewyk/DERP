@@ -1,0 +1,36 @@
+{
+  "name": "DERP",
+  "description": "Distributed Execution Remote Protocol",
+  "author": {
+    "name": "Serge Havas",
+    "email": "sinewyk@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Clavier Christophe"
+    },
+    {
+      "name": "Cornu Julien"
+    },
+    {
+      "name": "Lebreton Arnaud"
+    },
+    {
+      "name": "Premet Alexis"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sinewyk/DERP"
+  },
+  "dependencies": {
+    "each": ">=0.3.3",
+    "log": ">=1.3.0",
+    "mongodb": ">=1.2.8",
+    "underscore": ">=1.4.3",
+    "xml-writer": ">=1.2.3",
+    "zipstream": ">=0.2.1"
+  },
+  "main": "index.js",
+  "version": "0.1.2"
+}
