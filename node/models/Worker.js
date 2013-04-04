@@ -13,17 +13,16 @@ var _ = require('underscore')
 function Worker(object) {
     this._id = null;
     this.hostname = null;
-    this.state = "waiting"; //A voir si j'ai vraiment besoin <=> working
+    this.state = "waiting";
     this.groupName = null;
-    this.workload = null;
+    this.workload = null; //Not saved in db
     this.ipAddress = null;
     this.nbOfCore = "1";
     this.cpuFrequence = null;
     this.RAM = null;
     this.os = "win";
     this.archi = "64";
-    this.working = null; //A voir si j'ai vraiment besoin <=> state
-    this.socket = null; //Not in database, reference to the socket to send that fucker things
+    this.socket = null; //Not saved in db, circular reference
     
     // Kind of copy constructor
     if(typeof object === "object") _.extend(this, object);
@@ -40,7 +39,7 @@ Worker.prototype.toString = function() {
 */
 Worker.prototype.save = function(dbManager) {
     //I don't want to save the socket
-    dbManager.saveWorker(_.omit(this, "socket", "workload", "working", "OS"));
+    dbManager.saveWorker(_.omit(this, "socket", "workload", "OS"));
 }
 
 /**
@@ -78,3 +77,11 @@ Worker.prototype.OS = {
 }
 
 module.exports = Worker;
+
+/**
+Constants definition of header values
+**/
+module.exports.STATE_WAITING = "waiting";
+module.exports.STATE_WORKING = "working";
+module.exports.STATE_ERROR = "error";
+module.exports.STATE_OFFLINE = "offline";

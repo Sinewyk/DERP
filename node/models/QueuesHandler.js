@@ -159,6 +159,30 @@ QueuesHandler.prototype.newWorker = function(worker) {
 * @param worker Worker object
 */
 QueuesHandler.prototype.removeWorker = function(worker) {
+    console.log("Worker state : ",worker.state);
+    switch (worker.state) {
+        case Worker.STATE_ERROR:
+            break;
+        case Worker.STATE_WAITING:
+            console.log("Worker was waiting, remove it");
+            worker.state = Worker.STATE_OFFLINE;
+            this.available_worker_Q.singleRemove(worker);
+            worker.save(dbManager);
+            worker.socket.worker = null;
+            worker.socket = null;
+            break;
+        case Worker.STATE_WORKING:
+           if(client.worker.workload !== null) {
+                console.log("Worker was working, remove/clean its workload, then remove it");
+                //@TODO update db, process the switch of workloads from
+                //sent_workload_Q to waiting_workload_Q
+            }
+            break;
+        default:
+            console.log("Default removal");
+            break;
+    }
+    this.workersInfo();
 }
 
 /**
@@ -265,11 +289,6 @@ QueuesHandler.prototype.workerFinishedWork = function(worker, data) {
         
         if(workload.job.progress == workload.job.nbRun) self.emit("job_finished", workload.job);
     });
-}
-
-QueuesHandler.prototype.removeWorker = function(worker) {
-    this.available_worker_Q.singleRemove(worker);
-    this.workersInfo();
 }
 
 /**
