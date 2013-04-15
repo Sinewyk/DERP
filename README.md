@@ -32,6 +32,13 @@ If you need help ...
  
 You can stop right here if you have problems following.
 
+Important tweaks => edit your php.ini (careful, there's 2 of them, one command line, and one for apache usually) and edit this:
+
+    file_uploads = On;
+    post_max_size = 20M;
+    upload_max_file_size = 20M;
+    
+
 ## Mongodb and its php extension
 
 For [mongoDB](http://www.mongodb.org/) follow instructions, there's a doc ... [Rtfm](http://www.readthefuckingmanual.com/)
@@ -61,7 +68,40 @@ the --symlink is optional ...
 
 ## Node.js
 
-Coming soon ...
+[Install](http://nodejs.org/download/) it. Pitfall is just doing
+
+    apt-get install nodejs
+    
+and after looking why it doesn't work for 3 hours, that the version downloaded from official repositories isn't up to date.
+
+I then recommend following [this](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager#ubuntu), which will have you install some useful/needed libraries, add a repo, update your list, and download the last node executable.
+
+Then install npm (bundled with lastest repo) and do npm install while being in #root#/node. It's going to read the package.json and install the correct libraries.
+
+[This](http://nodejs.org/api/) is your new Bible for development.
+
+## Kaazing Websocket Gateway HTML5 edition
+
+Used as a bridge (gateway?) between the Websocket layer (HTTP-protocol based) and the TCP layer. Think of it as a crutch for now, I will try to remove it later.
+Nonetheless, this is a configuration example : 
+
+    <service>
+      <!-- Accept WS packets on port 7720 →
+      <!-- <accept>ws://pfe:7720/</accept> hosts file -->
+      <!-- <accept>ws://192.168.0.254:7720/</accept> direct ip -->
+      <accept>ws://localhost:7720/</accept> <!-- if used from the server -->
+      <!-- Transmit them on port 7776 in TCP -->
+      <connect>tcp://localhost:7776/</connect>
+      <type>proxy</type> <!-- gateway type -->
+      <cross-site-constraint>
+      <allow-origin>*</allow-origin>
+      </cross-site-constraint>
+    </service>
+    
+## Config points ...
+
+Be careful of your config, I recommend the nodejs server and the web server at the same spot for now (for Kaazing ease of use). Don't forget that the javascript for the upload will be executed from the browser of a client, thus, the ip should be "visible" from where the client is.
+Example, having "ws://localhost:7720" as a ip is wrong. Because then the client would try to connect to a websocket on his computer.
 
 # Status
 
@@ -70,6 +110,7 @@ It works with tons of glue patching everywhere ... consider this as a BETA for n
 ## Roadmap
 
   * Finalize CRUD operations for db and in-memory regardings jobs/workers/workloads
+  * Remove the need of Kaazing
   * Shift from standard TCP to TSL/SSL, WS to WSS, and maybe add a password to our database (-.-').
   * When works will come with their own libs and stuff, will need to shift the focus from "one exec" to one a zip containing exec + libs.
   * No idea right now concerning timeouts of tcp sockets.
