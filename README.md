@@ -43,9 +43,9 @@ Important tweaks => edit your php.ini (careful, there's 2 of them, one command l
 
 For [mongoDB](http://www.mongodb.org/) follow instructions, there's a doc ... [Rtfm](http://www.readthefuckingmanual.com/)
 
-For its php extension I recommend (read : do exactly that or it won't work for now) the 1.2.12.
- * [Windows](https://github.com/downloads/mongodb/mongo-php-driver/php_mongo-1.2.12.zip)
- * [Linux](http://pecl.php.net/get/mongo-1.2.12.tgz)
+For its php extension I recommend the lastest 1.3.7
+ * [Windows](https://github.com/downloads/mongodb/mongo-php-driver/php_mongo-1.3.7.zip)
+ * [Linux](http://pecl.php.net/get/mongo-1.3.7.tgz)
  * Mac ... do it yourself, no idea where you can find it, just do it.
  
 ## Symfony2
